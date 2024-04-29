@@ -20,7 +20,9 @@ module.exports = {
         'no-unused-vars': 'off',
         'no-case-declarations': 'off',
         '@typescript-eslint/no-inferrable-types': 'off',
-        '@typescript-eslint/ban-ts-comment': 'off'
+        '@typescript-eslint/ban-ts-comment': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
     },
     plugins: ['@typescript-eslint'],
     overrides: [

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   auth,
@@ -7,7 +7,7 @@ import {
   sendPasswordResetEmail,
   gProvider
 } from '@/services/firebase'
-import { User, updateProfile, sendEmailVerification } from 'firebase/auth'
+import { User, sendEmailVerification } from 'firebase/auth'
 import {
   validateEmail,
   validatePassword,
@@ -89,7 +89,7 @@ export function useAuth () {
     try {
       externalAuthLoading.value = true
       error.value = null
-      const userCredential = await signInWithPopup(auth, gProvider)
+      await signInWithPopup(auth, gProvider)
       success.value =
         "Logged in successfully. You're being redirected to home page."
       setTimeout(() => {

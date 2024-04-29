@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch } from "vue";
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   name: "ResponseStatus",

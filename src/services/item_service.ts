@@ -43,27 +43,17 @@ class ItemService {
   }
 
   async createItem(item: Item): Promise<string> {
-    try {
-        const newItem = {
-            ...item.toMap(),
-            timestamp: serverTimestamp()
-        };
-        const docRef = await addDoc(this._item_collection, newItem);
-        return docRef.id;
-    } catch (e) {
-      console.error('Failed to create reservation:', e)
-      throw e
-    }
+    const newItem = {
+        ...item.toMap(),
+        timestamp: serverTimestamp()
+    };
+    const docRef = await addDoc(this._item_collection, newItem);
+    return docRef.id;
   }
 
   async updateItem(item: Item): Promise<void> {
-    try {
-        const itemRef = doc(this._item_collection, item.id);
-        await updateDoc(itemRef, item.toMap());
-    } catch (e) {
-      console.error('Failed to update reservation:', e)
-      throw e
-    }
+    const itemRef = doc(this._item_collection, item.id);
+    await updateDoc(itemRef, item.toMap());
   }
 }
 
