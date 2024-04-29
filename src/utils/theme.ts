@@ -1,6 +1,8 @@
 /**
  * Function to set the theme.
+ * 
  * @since v1.0.0
+ * @author Muhammad Umer Farooq <umer@lablnet.com>
  * @returns null
  */
 export const themeSetup = () => {
