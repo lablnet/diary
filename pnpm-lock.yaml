@@ -9,7 +9,7 @@ dependencies:
     specifier: ^6.5.2
     version: 6.5.2
   autoprefixer:
-    specifier: ^10
+    specifier: ^10.4.19
     version: 10.4.19(postcss@8.4.38)
   babel-eslint:
     specifier: ^10.1.0
@@ -24,25 +24,25 @@ dependencies:
     specifier: ^0.2.0
     version: 0.2.0
   pinia:
-    specifier: ^2.1.4
+    specifier: ^2.1.7
     version: 2.1.7(typescript@4.5.5)(vue@3.4.26)
   postcss:
-    specifier: ^8
+    specifier: ^8.4.38
     version: 8.4.38
   register-service-worker:
     specifier: ^1.7.2
     version: 1.7.2
   tailwindcss:
-    specifier: ^3
+    specifier: ^3.4.3
     version: 3.4.3
   vue:
-    specifier: ^3.2.13
+    specifier: ^3.4.26
     version: 3.4.26(typescript@4.5.5)
   vue-class-component:
-    specifier: ^8.0.0-0
+    specifier: 8.0.0-rc.1
     version: 8.0.0-rc.1(vue@3.4.26)
   vue-router:
-    specifier: ^4.0.3
+    specifier: ^4.3.2
     version: 4.3.2(vue@3.4.26)
 
 devDependencies:
@@ -50,25 +50,25 @@ devDependencies:
     specifier: ^0.2.3
     version: 0.2.3
   '@typescript-eslint/eslint-plugin':
-    specifier: ^5.4.0
+    specifier: ^5.62.0
     version: 5.62.0(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)(typescript@4.5.5)
   '@typescript-eslint/parser':
-    specifier: ^5.4.0
+    specifier: ^5.62.0
     version: 5.62.0(eslint@7.32.0)(typescript@4.5.5)
   '@vue/cli-plugin-eslint':
-    specifier: ~5.0.0
+    specifier: ~5.0.8
     version: 5.0.8(@vue/cli-service@5.0.8)(eslint@7.32.0)
   '@vue/cli-plugin-pwa':
-    specifier: ~5.0.0
+    specifier: ~5.0.8
     version: 5.0.8(@vue/cli-service@5.0.8)
   '@vue/cli-plugin-router':
-    specifier: ~5.0.0
+    specifier: ~5.0.8
     version: 5.0.8(@vue/cli-service@5.0.8)
   '@vue/cli-plugin-typescript':
-    specifier: ~5.0.0
+    specifier: ~5.0.8
     version: 5.0.8(@vue/cli-service@5.0.8)(eslint@7.32.0)(typescript@4.5.5)(vue@3.4.26)
   '@vue/cli-service':
-    specifier: ~5.0.0
+    specifier: ~5.0.8
     version: 5.0.8(less-loader@8.1.1)(vue@3.4.26)
   '@vue/eslint-config-standard':
     specifier: ^6.1.0
@@ -80,22 +80,22 @@ devDependencies:
     specifier: ^7.32.0
     version: 7.32.0
   eslint-plugin-import:
-    specifier: ^2.25.3
+    specifier: ^2.29.1
     version: 2.29.1(@typescript-eslint/parser@5.62.0)(eslint@7.32.0)
   eslint-plugin-node:
     specifier: ^11.1.0
     version: 11.1.0(eslint@7.32.0)
   eslint-plugin-promise:
-    specifier: ^5.1.0
+    specifier: ^5.2.0
     version: 5.2.0(eslint@7.32.0)
   eslint-plugin-vue:
-    specifier: ^8.0.3
+    specifier: ^8.7.1
     version: 8.7.1(eslint@7.32.0)
   less:
-    specifier: ^4.0.0
+    specifier: ^4.2.0
     version: 4.2.0
   less-loader:
-    specifier: ^8.0.0
+    specifier: ^8.1.1
     version: 8.1.1(less@4.2.0)(webpack@5.91.0)
   typescript:
     specifier: ~4.5.5
@@ -5966,7 +5966,7 @@ packages:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.30.4
+      terser: 5.31.0
     dev: true
 
   /html-webpack-plugin@5.6.0(webpack@5.91.0):
@@ -8169,7 +8169,7 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.79.1
       serialize-javascript: 4.0.0
-      terser: 5.30.4
+      terser: 5.31.0
     dev: true
 
   /rollup@2.79.1:
@@ -8870,12 +8870,12 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
-      terser: 5.30.4
+      terser: 5.31.0
       webpack: 5.91.0
     dev: true
 
-  /terser@5.30.4:
-    resolution: {integrity: sha512-xRdd0v64a8mFK9bnsKVdoNP9GQIKUAaJPTaqEQDL4w/J8WaW4sWXXoMZ+6SimPkfT5bElreXf8m9HnmPc3E1BQ==}
+  /terser@5.31.0:
+    resolution: {integrity: sha512-Q1JFAoUKE5IMfI4Z/lkE/E6+SwgzO+x4tq4v1AyBLRj8VSYvRO6A/rQrPg1yud4g0En9EKI1TvFRF2tQFcoUkg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
