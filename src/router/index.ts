@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
+import { createRouter, createWebHistory, Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import routes from './routes'
 import { auth } from '@/services/firebase'
 
@@ -8,7 +8,7 @@ import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 const router : Router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 
@@ -23,7 +23,6 @@ router.beforeEach(
     const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
     // if user is not logged in redirect to auth page.
 
-    console.log (auth.currentUser)
     if (requiresAuth && !auth.currentUser) {
       next('/auth/login')
     }
