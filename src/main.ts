@@ -5,6 +5,8 @@ import router from './router'
 import { createPinia } from "pinia";
 import { auth } from '@/services/firebase'
 
+// Styles.
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import '@/assets/styles/index.css'
 
 let app: VueApp | null = null;
