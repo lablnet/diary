@@ -12,7 +12,7 @@ class ItemService {
   }
 
   async getItems( page : number = 1, search : string = '') : Promise<Array<Item>> {
-    let q: Query<DocumentSnapshot> = query(this._item_collection);
+    let q: Query<DocumentData> = query(this._item_collection);
     q = query(q, orderBy('timestamp', 'desc'));
 
     // Pagination: reset last document for the first page
@@ -39,10 +39,7 @@ class ItemService {
     }
 
     // Map the documents to User instances
-    return querySnapshot.docs.map(doc => new Item({
-      ...doc.data(),
-      uid: doc.id
-    }));
+    return querySnapshot.docs.map(doc => Item.fromMap(doc));
   }
 
   async createItem(item: Item): Promise<string> {
