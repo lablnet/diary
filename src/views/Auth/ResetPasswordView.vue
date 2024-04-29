@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import AuthPage from "@/layouts/AuthPage.vue";
 import InputField from "@/components/InputField.vue";
