@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, Router, RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import routes from './routes'
+import { auth } from '@/services/firebase'
 
 // Nprogress
 import Nprogress from 'nprogress'
@@ -19,7 +20,17 @@ router.beforeEach(
   ) => {
     // Start the animation of the route progress bar.
     Nprogress.start()
+    const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
+    // if user is not logged in redirect to auth page.
 
+    console.log (auth.currentUser)
+    if (requiresAuth && !auth.currentUser) {
+      next('/auth/login')
+    }
+    // if user is logged in and tries to access login page redirect to home page.
+    if (auth.currentUser && to.path.includes('auth')) {
+      next('/')
+    }
     next()
   }
 )
