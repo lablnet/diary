@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "autoprefixer": "^10",
+    "babel-eslint": "^10.1.0",
     "firebase": "^10.11.1",
     "nprogress": "^0.2.0",
     "postcss": "^8",
