@@ -28,9 +28,10 @@
             :language="'en-US'"
           />
         </div>
-
+        <ResponseStatus :error="error" :success="success" />
+        <LoadingIcon :loading="loading" />
         <div class="mt-2 mb-2">
-<PrimaryButton text="Create" />
+          <PrimaryButton text="Create" />
         </div>
       </form>
     </div>
@@ -44,6 +45,9 @@ import LoadingIcon from "@/components/LoadingIcon.vue";
 import ResponseStatus from "@/components/ResponseStatus.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 
+import { Item } from "@/models/Item";
+import { ItemService } from "@/services/item_service";
+import { handleError } from '@/utils'
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 
@@ -53,6 +57,8 @@ export default defineComponent({
     InputField,
     MdEditor,
     PrimaryButton,
+    LoadingIcon,
+    ResponseStatus,
   },
   setup() {
     const data = ref({
@@ -60,6 +66,29 @@ export default defineComponent({
       tags: "",
       content: "",
     });
+    const loading = ref(false);
+    const error = ref("");
+    const success = ref("");
+
+    const createItem = async () => {
+      loading.value = true;
+      try {
+        let item = new Item({
+          title: data.value.title,
+          tag: data.value.tags,
+          content: data.value.content,
+          id: "",
+          timestamp: null,
+        });
+        await new ItemService().createItem(item);
+        success.value = "Item created successfully";
+      } catch (e) {
+        error.value = await handleError(e)
+      } finally {
+        loading.value = false;
+      }
+    };
+
     return {
       data,
     };

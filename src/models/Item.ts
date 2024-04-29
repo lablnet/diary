@@ -5,7 +5,7 @@ class Item {
     title: string;
     tag: string;
     content: string;
-    timestamp: Date | string;
+    timestamp: Date | string | null;
 
     constructor({ id, title, tag, content, timestamp }: ItemData) {
         this.id = id;

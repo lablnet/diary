@@ -3,5 +3,5 @@ export type ItemData = {
     title: string;
     tag: string;
     content: string;
-    timestamp: Date | string;
+    timestamp: Date | string | null;
 };
