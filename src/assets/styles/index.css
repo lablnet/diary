@@ -20,4 +20,49 @@
       --accent: #549d20;
     }
 }
-  
+
+@layer utilities {
+    .container {
+        @apply w-full mx-auto px-6 max-w-5xl;
+    }
+
+    @media only screen and (max-width: 986px) {
+        .container {
+            @apply px-2;
+        }
+    }
+
+    section .title {
+        @apply text-4xl md:text-4xl lg:text-5xl font-normal mb-0;
+    }
+
+    section .subtitle,
+    h1 {
+        @apply text-3xl md:text-4xl;
+    }
+
+    section p {
+        @apply mt-5;
+    }
+
+    h4 {
+        @apply font-semibold;
+    }
+
+    .project-headings {
+        @apply font-semibold text-xl mb-2;
+        line-height: 1.6;
+    }
+
+    .backtotop {
+        @apply cursor-pointer text-sm p-2 fixed;
+        bottom: 80px;
+        right: 20px;
+        z-index: 99;
+        outline: none;
+    }
+
+    .light-text-color {
+        @apply text-gray-800;
+    }
+}
