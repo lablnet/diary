@@ -2,7 +2,7 @@
   <div>
     <div class="container mx-auto p-4 pt-6">
       <h1 class="text-3xl font-bold mb-4">New Diary Entry</h1>
-      <form role="form">
+      <form role="form" @submit.prevent="createItem">
         <InputField
           v-model="data.title"
           type="text"
@@ -31,7 +31,7 @@
         <ResponseStatus :error="error" :success="success" />
         <LoadingIcon :loading="loading" />
         <div class="mt-2 mb-2">
-          <PrimaryButton text="Create" />
+          <PrimaryButton text="Create" @handleOnClick="createItem" />
         </div>
       </form>
     </div>
@@ -90,7 +90,11 @@ export default defineComponent({
     };
 
     return {
-      data,
+        data,
+        loading,
+        error,
+        success,
+        createItem,
     };
   },
 });
