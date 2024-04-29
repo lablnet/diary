@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "diary-lablnet",
     "public": "dist",
     "ignore": [
       "firebase.json",
