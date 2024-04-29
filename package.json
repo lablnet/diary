@@ -12,6 +12,7 @@
     "autoprefixer": "^10",
     "babel-eslint": "^10.1.0",
     "firebase": "^10.11.1",
+    "md-editor-v3": "^4.13.5",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.4",
     "postcss": "^8",
