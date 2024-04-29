@@ -28,7 +28,6 @@
     </div>
     <div class="flex items-center justify-between">
       <LinkButton text="Forgot password" link="/auth/forgot-password" />
-      <LinkButton text="Create new account" link="/auth/register" />
     </div>
     <LoadingIcon :loading="loading" />
     <ResponseStatus :error="error" :success="success" />
