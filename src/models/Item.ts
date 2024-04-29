@@ -1,10 +1,4 @@
-type ItemData = {
-    id: string;
-    title: string;
-    tag: string;
-    content: string;
-    timestamp: Date | string;
-};
+import { ItemData } from '../types/item';
 
 class Item {
     id: string;
