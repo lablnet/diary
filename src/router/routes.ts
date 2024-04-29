@@ -4,19 +4,38 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/Auth/LoginView.vue'),
+    component: () => import('../views/HomeView.vue'),
     meta: {
-        title: 'Login',
-        requiresAuth: false,
+        title: 'Home',
+        requiresAuth: true,
     }
   },
   {
     path: '/auth',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    name: 'auth',
+    component: () => import('../views/AuthView.vue'), 
+    meta: {
+        title: 'Auth',
+        requiresAuth: false
+    },
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('../views/Auth/LoginView.vue'),
+        meta: {
+          title: 'Login',
+        }
+      },
+      {
+        path: 'forgot-password',
+        name: 'forgot-password',
+        component: () => import('../views/Auth/ResetPasswordView.vue'),
+        meta: {
+          title: 'Forgot your password?',
+        }
+      },
+    ]
   }
 ]
 
