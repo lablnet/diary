@@ -4,6 +4,22 @@ module.exports = {
   presets: [],
   darkMode: 'media', // or 'class'
   theme: {
+    extend: {
+      fontFamily: {
+        'sans': ['IBM Plex Sans', 'ui-sans-serif', 'sans-serif']
+      },
+      colors: {
+        'text': 'var(--text)',
+        'background': 'var(--background)',
+        'primary': 'var(--primary)',
+        'secondary': 'var(--secondary)',
+        'accent': 'var(--accent)',
+
+        'primary-dark': '#383838',
+        'secondary-dark': '#121212',
+        'ternary-dark': '#383838',
+      },
+    },
     accentColor: ({ theme }) => ({
       ...theme('colors'),
       auto: 'auto'
