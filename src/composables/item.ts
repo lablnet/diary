@@ -13,12 +13,11 @@ export function useItem () {
   async function getItem (id: string) {
     try {
       loading.value = true
-      const itemData = await (new ItemService()).getItem(id)
-      console.log("itemData", itemData)
-        if (!itemData) {
-            router.push('/manage-record')
-            return
-        }
+      const itemData = await new ItemService().getItem(id)
+      if (!itemData) {
+        router.push('/manage-record')
+        return
+      }
       item.value = itemData
     } catch (error) {
       handleError(error)
