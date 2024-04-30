@@ -103,18 +103,18 @@ export default defineComponent({
       if (addLoading.value) return
       addLoading.value = true
       try {
-        let item = new Item({
+        let _item = new Item({
           title: data.value.title,
           tag: data.value.tags,
           content: data.value.content,
           id: '',
-          timestamp: null
+          timestamp: item.value?.timestamp || null
         })
         if (id.value) {
-          item.id = id.value as string
-          await new ItemService().updateItem(item)
+          _item.id = id.value as string
+          await new ItemService().updateItem(_item)
         } else {
-          await new ItemService().createItem(item)
+          await new ItemService().createItem(_item)
         }
         success.value = 'Item created successfully'
       } catch (e) {
