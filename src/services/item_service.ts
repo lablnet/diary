@@ -24,7 +24,7 @@ class ItemService {
       q = query(q, startAfter(this._lastDocument));
     }
 
-    q = query(q, limit(40));
+    q = query(q, limit(10));
 
     // Search functionality
     if (search) {
