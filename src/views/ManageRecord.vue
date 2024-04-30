@@ -100,6 +100,7 @@ export default defineComponent({
     })
 
     const createItem = async () => {
+      if (addLoading.value) return
       addLoading.value = true
       try {
         let item = new Item({
