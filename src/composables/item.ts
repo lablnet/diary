@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { shouldNotEmpty, handleError } from '@/utils'
+import { handleError } from '@/utils'
 import { ItemData } from '@/types/item'
 import { ItemService } from '@/services/item_service'
 
