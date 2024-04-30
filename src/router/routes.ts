@@ -11,6 +11,15 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/item/:id',
+    name: 'ItemDetail',
+    component: () => import('../views/ItemDetail.vue'),
+    meta: {
+        title: 'Item Detail',
+        requiresAuth: true,
+    }
+  },
+  {
     path: '/manage-record/:id?',
     name: 'ManageRecord',
     component: () => import('../views/ManageRecord.vue'),
