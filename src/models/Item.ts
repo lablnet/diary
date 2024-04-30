@@ -17,8 +17,8 @@ class Item {
 
     static fromMap(doc: any): Item {
         return new Item({
-            id: doc.id,
             ...doc.data(),
+            id: doc.id,
             timestamp: doc.data().timestamp != null ? new Date(doc.data().timestamp.seconds * 1000) : ''
         });
     }
