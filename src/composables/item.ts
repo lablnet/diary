@@ -5,6 +5,7 @@ import { ItemService } from '@/services/item_service'
 
 export function useItem () {
   const item = ref<ItemData | null>(null)
+  const error = ref<string | null>(null)
   const loading = ref<boolean>(false)
 
   async function getItem (id: string) {
