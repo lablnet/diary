@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="container mx-auto p-4 pt-6">
+      <LoadingOverlayVue :loading="loading" />
       <h1 class="text-3xl font-bold mb-4">New Diary Entry</h1>
       <form role="form" @submit.prevent="createItem">
         <InputField
@@ -29,7 +30,7 @@
           />
         </div>
         <ResponseStatus :error="error" :success="success" />
-        <LoadingIcon :loading="loading" />
+        <LoadingIcon :loading="addLoading" />
         <div class="mt-2 mb-2">
           <PrimaryButton
             :text="id ? 'Update' : 'Create'"
@@ -42,10 +43,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
+
+import { useItem } from "@/composables/item";
+
 import InputField from "@/components/InputField.vue";
 import LoadingIcon from "@/components/LoadingIcon.vue";
+import LoadingOverlayVue from "@/components/LoadingOverlay.vue";
 import ResponseStatus from "@/components/ResponseStatus.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 
@@ -63,6 +68,7 @@ export default defineComponent({
     PrimaryButton,
     LoadingIcon,
     ResponseStatus,
+    LoadingOverlayVue,
   },
   setup() {
     const data = ref({
@@ -70,15 +76,33 @@ export default defineComponent({
       tags: "",
       content: "",
     });
-    const loading = ref(false);
-    const error = ref("");
+    const addLoading = ref(false);
+    const addError = ref("");
     const success = ref("");
     const router = useRouter();
     // get id form the route params.
     const id = ref(router.currentRoute.value.params.id);
 
+    const {item, loading, error, getItem} = useItem();
+
+    onMounted(async () => {
+      console.log("id", id.value);
+      if (id.value != null) {
+        console.log ("route param", id.value)
+        await getItem(id.value as string);
+      }
+    });
+
+    watch (item, (newVal) => {
+      if (newVal) {
+        data.value.title = newVal.title;
+        data.value.tags = newVal.tag;
+        data.value.content = newVal.content;
+      }
+    });
+
     const createItem = async () => {
-      loading.value = true;
+      addLoading.value = true;
       try {
         let item = new Item({
           title: data.value.title,
@@ -87,22 +111,29 @@ export default defineComponent({
           id: "",
           timestamp: null,
         });
-        await new ItemService().createItem(item);
+        if (id.value) {
+          item.id = id.value as string;
+          await new ItemService().updateItem(item);
+        } else {
+          await new ItemService().createItem(item);
+        }
         success.value = "Item created successfully";
       } catch (e) {
         error.value = await handleError(e)
       } finally {
-        loading.value = false;
+        addLoading.value = false;
       }
     };
 
     return {
         id,
         data,
-        loading,
+        addLoading,
         error,
         success,
         createItem,
+        loading,
+        item,
     };
   },
 });
