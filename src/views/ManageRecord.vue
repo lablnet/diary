@@ -31,7 +31,10 @@
         <ResponseStatus :error="error" :success="success" />
         <LoadingIcon :loading="loading" />
         <div class="mt-2 mb-2">
-          <PrimaryButton text="Create" @handleOnClick="createItem" />
+          <PrimaryButton
+            :text="id ? 'Update' : 'Create'"
+            @handleOnClick="createItem"
+          />
         </div>
       </form>
     </div>
@@ -40,6 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
 import InputField from "@/components/InputField.vue";
 import LoadingIcon from "@/components/LoadingIcon.vue";
 import ResponseStatus from "@/components/ResponseStatus.vue";
@@ -69,6 +73,9 @@ export default defineComponent({
     const loading = ref(false);
     const error = ref("");
     const success = ref("");
+    const router = useRouter();
+    // get id form the route params.
+    const id = ref(router.currentRoute.value.params.id);
 
     const createItem = async () => {
       loading.value = true;
@@ -90,6 +97,7 @@ export default defineComponent({
     };
 
     return {
+        id,
         data,
         loading,
         error,
