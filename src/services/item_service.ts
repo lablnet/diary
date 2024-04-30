@@ -55,6 +55,15 @@ class ItemService {
     const itemRef = doc(this._item_collection, item.id);
     await updateDoc(itemRef, item.toMap());
   }
+
+  async getItem(id: string): Promise<Item | null> {
+    const itemRef = doc(this._item_collection, id);
+    const itemSnapshot = await getDoc(itemRef);
+    if (itemSnapshot.exists()) {
+      return Item.fromMap(itemSnapshot);
+    }
+    return null;
+  }
 }
 
 export { ItemService };
