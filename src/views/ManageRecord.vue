@@ -86,6 +86,11 @@ export default defineComponent({
     const { item, loading, error, getItem } = useItem();
 
     onMounted(async () => {
+      // Load values from localStorage, if available.
+      data.value.title = localStorage.getItem("title") || "";
+      data.value.tags = localStorage.getItem("tags") || "";
+      data.value.content = localStorage.getItem("content") || "";
+
       if (id.value != null) {
         await getItem(id.value as string);
       }
@@ -98,6 +103,30 @@ export default defineComponent({
         data.value.content = newVal.content;
       }
     });
+
+    // Watch for changes to data.title
+    watch(
+      () => data.value.title,
+      (newVal) => {
+        localStorage.setItem("title", newVal);
+      }
+    );
+
+    // Watch for changes to data.tags
+    watch(
+      () => data.value.tags,
+      (newVal) => {
+        localStorage.setItem("tags", newVal);
+      }
+    );
+
+    // Watch for changes to data.content
+    watch(
+      () => data.value.content,
+      (newVal) => {
+        localStorage.setItem("content", newVal);
+      }
+    );
 
     const createItem = async () => {
       if (addLoading.value) return;
@@ -118,6 +147,10 @@ export default defineComponent({
             await new ItemService().createItem(_item);
           }
           success.value = "Item created successfully, redirecting...";
+          // Remove values from localStorage
+          localStorage.removeItem("title");
+          localStorage.removeItem("tags");
+          localStorage.removeItem("content");
           setTimeout(() => {
             router.push("/");
           }, 1000);
