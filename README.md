@@ -8,7 +8,7 @@ In today's digital age, why stick to old-school paper diaries? This web app allo
 
 
 ### Demo
-[Live Demo](https://diary-web-app.netlify.app/)
+[Live Demo](https://diary.demos.lablnet.com/)
 - Email: `demo@labnet.com`
 - Password: `password`
 **Note:** You can only able to use the demo account.
