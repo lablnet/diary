@@ -29,7 +29,7 @@
             :language="'en-US'"
           />
         </div>
-        <ResponseStatus :error="error" :success="success" />
+        <ResponseStatus :error="error || addError" :success="success" />
         <LoadingIcon :loading="addLoading" />
         <div class="mt-2 mb-2">
           <PrimaryButton
@@ -43,97 +43,102 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
 
-import { useItem } from '@/composables/item'
+import { useItem } from "@/composables/item";
 
-import InputField from '@/components/InputField.vue'
-import LoadingIcon from '@/components/LoadingIcon.vue'
-import LoadingOverlayVue from '@/components/LoadingOverlay.vue'
-import ResponseStatus from '@/components/ResponseStatus.vue'
-import PrimaryButton from '@/components/PrimaryButton.vue'
+import InputField from "@/components/InputField.vue";
+import LoadingIcon from "@/components/LoadingIcon.vue";
+import LoadingOverlayVue from "@/components/LoadingOverlay.vue";
+import ResponseStatus from "@/components/ResponseStatus.vue";
+import PrimaryButton from "@/components/PrimaryButton.vue";
 
-import { Item } from '@/models/Item'
-import { ItemService } from '@/services/item_service'
-import { handleError } from '@/utils'
-import { MdEditor } from 'md-editor-v3'
-import 'md-editor-v3/lib/style.css'
+import { Item } from "@/models/Item";
+import { ItemService } from "@/services/item_service";
+import { handleError } from "@/utils";
+import { MdEditor } from "md-editor-v3";
+import "md-editor-v3/lib/style.css";
 
 export default defineComponent({
-  name: 'ManageRecord',
+  name: "ManageRecord",
   components: {
     InputField,
     MdEditor,
     PrimaryButton,
     LoadingIcon,
     ResponseStatus,
-    LoadingOverlayVue
+    LoadingOverlayVue,
   },
   setup() {
     const data = ref({
-      title: '',
-      tags: '',
-      content: ''
-    })
-    const addLoading = ref(false)
-    const addError = ref('')
-    const success = ref('')
-    const router = useRouter()
+      title: "",
+      tags: "",
+      content: "",
+    });
+    const addLoading = ref(false);
+    const addError = ref("");
+    const success = ref("");
+    const router = useRouter();
     // get id form the route params.
-    const id = ref(router.currentRoute.value.params.id)
+    const id = ref(router.currentRoute.value.params.id);
 
-    const { item, loading, error, getItem } = useItem()
+    const { item, loading, error, getItem } = useItem();
 
     onMounted(async () => {
       if (id.value != null) {
-        await getItem(id.value as string)
+        await getItem(id.value as string);
       }
-    })
+    });
 
-    watch(item, newVal => {
+    watch(item, (newVal) => {
       if (newVal) {
-        data.value.title = newVal.title
-        data.value.tags = newVal.tag
-        data.value.content = newVal.content
+        data.value.title = newVal.title;
+        data.value.tags = newVal.tag;
+        data.value.content = newVal.content;
       }
-    })
+    });
 
     const createItem = async () => {
-      if (addLoading.value) return
-      addLoading.value = true
+      if (addLoading.value) return;
+      addLoading.value = true;
       try {
         let _item = new Item({
           title: data.value.title,
           tag: data.value.tags,
           content: data.value.content,
-          id: '',
-          timestamp: item.value?.timestamp || null
-        })
-        if (id.value) {
-          _item.id = id.value as string
-          await new ItemService().updateItem(_item)
-        } else {
-          await new ItemService().createItem(_item)
+          id: "",
+          timestamp: item.value?.timestamp || null,
+        });
+        try {
+          if (id.value) {
+            _item.id = id.value as string;
+            await new ItemService().updateItem(_item);
+          } else {
+            await new ItemService().createItem(_item);
+          }
+          success.value = "Item created successfully";
+        } catch (e) {
+          addError.value = await handleError(e);
         }
-        success.value = 'Item created successfully'
       } catch (e) {
-        error.value = await handleError(e)
+        error.value = await handleError(e);
       } finally {
-        addLoading.value = false
+        addLoading.value = false;
       }
-    }
+    };
 
     return {
       id,
       data,
       addLoading,
       error,
+      addError,
       success,
       createItem,
       loading,
-      item
-    }
-  }
-})
+      item,
+    };
+  },
+});
 </script>
