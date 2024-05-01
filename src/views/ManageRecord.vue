@@ -94,10 +94,18 @@ export default defineComponent({
 
     onMounted(async () => {
       // Load values from localStorage, if available.
-      // localStorageKeys.forEach((key: string | string[]) => {
-      //   data.value[key as 'title' | 'tags' | 'content'] =
-      //     localStorage.getItem(key) || ''
-      // })
+      localStorageKeys.forEach((key) => {
+        let val = localStorage.getItem(key);
+        if (key === 'tags') {
+          try {
+            data.value.tags = JSON.parse(val || "[]");
+          } catch (e) {
+            data.value.tags = [];
+          }
+          return
+        } 
+        data.value[key as "title" | "content"] = val || "";
+      });
 
       if (id.value != null) {
         await getItem(id.value as string);
@@ -112,15 +120,15 @@ export default defineComponent({
       }
     });
 
-    // // Watch for changes in the data object and update localStorage
-    // localStorageKeys.forEach(key => {
-    //   watch(
-    //     () => data.value[key as 'title' | 'tags' | 'content'],
-    //     newVal => {
-    //       localStorage.setItem(key, newVal)
-    //     }
-    //   )
-    // })
+    // Watch for changes in the data object and update localStorage
+    watch(data, (newVal) => {
+      localStorageKeys.forEach((key) => {
+        if (key === 'tags') {
+          return
+        }
+        localStorage.setItem(key, newVal[key as "title" | "content"]);
+      });
+    });
 
     const addTag = () => {
       // do not add tag if it is space, empty or already exists.
@@ -134,12 +142,13 @@ export default defineComponent({
       data.value.tags = data.value.tags.filter(
         (tag, index, self) => self.indexOf(tag) === index
       );
+      localStorage.setItem("tags", JSON.stringify(data.value.tags));
       tag.value = "";
-      
     };
 
     const removeTag = (tag: string) => {
       data.value.tags = data.value.tags.filter((t) => t !== tag);
+      localStorage.setItem("tags", JSON.stringify(data.value.tags));
     };
 
     const createItem = async () => {
@@ -162,9 +171,9 @@ export default defineComponent({
           }
           success.value = "Item created successfully, redirecting...";
           // Remove values from localStorage
-          localStorage.removeItem("title");
-          localStorage.removeItem("tags");
-          localStorage.removeItem("content");
+          localStorageKeys.forEach((key) => {
+            localStorage.removeItem(key);
+          });
           setTimeout(() => {
             router.push("/");
           }, 1000);
