@@ -53,7 +53,10 @@ class ItemService {
 
   async updateItem(item: Item): Promise<void> {
     const itemRef = doc(this._item_collection, item.id);
-    await updateDoc(itemRef, item.toMap());
+    await updateDoc(itemRef, {
+      ...item.toMap(),
+      updated: serverTimestamp()
+    });
   }
 
   async getItem(id: string): Promise<Item | null> {
