@@ -11,19 +11,7 @@
           label="Title"
         />
 
-        <ul class="flex flex-wrap">
-          <div
-            v-for="t in data.tags"
-            :key="t.id"
-            class="w-fit flex items-start px-3 py-1 rounded-sm bg-gray-200 text-gray-700 mr-2 my-2 text-sm shadow-md"
-          >
-            <li class="w-fit text-center mt-1 mr-1 text-sm font-semibold">
-              {{ t }}
-            </li>
-            <i class="fa fa-close text-red-500 cursor-pointer" @click="removeTag(t)"></i>
-          </div>
-        </ul>
-
+        <TagList :tags="data.tags" @remove="removeTag" />
         <InputField
           v-model="tag"
           type="text"
@@ -68,6 +56,7 @@ import LoadingIcon from "@/components/LoadingIcon.vue";
 import LoadingOverlayVue from "@/components/LoadingOverlay.vue";
 import ResponseStatus from "@/components/ResponseStatus.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
+import TagList from "@/components/TagList.vue";
 
 import { Item } from "@/models/Item";
 import { ItemService } from "@/services/item_service";
@@ -84,6 +73,7 @@ export default defineComponent({
     LoadingIcon,
     ResponseStatus,
     LoadingOverlayVue,
+    TagList,
   },
   setup() {
     const data = ref({
