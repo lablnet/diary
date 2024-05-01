@@ -6,7 +6,7 @@
     <nav class="flex justify-between items-center p-4 bg-blue-500 text-white">
       <div class="flex items-center font-bold text-lg">
         <img src="@/assets/logo.png" class="w-12 h-12 mr-2" />
-        DIARY
+        <router-link to="/">Diary</router-link>
       </div>
       <div>
         <router-link class="bg-green-500 px-2 py-1 rounded" to="/manage-record"
