@@ -10,13 +10,15 @@
     <div class="prose">
       <MdPreview :editorId="editor_id" :modelValue="limitedContent ?? item.content" />
     </div>
-    <p class="text-gray-600 mt-6">Tags: {{ item.tag }}</p>
+    <p class="text-gray-600 mt-6"></p>
+    <TagList :tags="item.tags" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { ItemData } from '@/types/item'
+import TagList from '@/components/TagList.vue'
 import { MdPreview } from 'md-editor-v3'
 
 export default defineComponent({
@@ -32,7 +34,8 @@ export default defineComponent({
     }
   },
   components: {
-    MdPreview
+    MdPreview,
+    TagList
   }
 })
 </script>
