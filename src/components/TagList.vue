@@ -10,6 +10,7 @@
           {{ t }}
         </li>
         <i
+          v-if="showDelete"
           class="fa fa-close text-red-500 cursor-pointer"
           @click="removeTag(t)"
         ></i>

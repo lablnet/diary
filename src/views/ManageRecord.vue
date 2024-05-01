@@ -11,7 +11,7 @@
           label="Title"
         />
 
-        <TagList :tags="data.tags" @remove="removeTag" />
+        <TagList :tags="data.tags" :showDelete="true" @remove="removeTag" />
         <InputField
           v-model="tag"
           type="text"
