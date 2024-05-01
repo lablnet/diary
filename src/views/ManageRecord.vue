@@ -32,6 +32,7 @@
             :language="'en-US'"
           />
         </div>
+        error: {{error}}
         <ResponseStatus :error="error" :success="success" />
         <div class="mt-2 mb-2">
           <PrimaryButton

@@ -23,8 +23,8 @@ export function useItem () {
         return
       }
       item.value = itemData
-    } catch (error) {
-      handleError(error)
+    } catch (err) {
+      error.value = await handleError(err);
     } finally {
       loading.value = false
     }
@@ -49,8 +49,8 @@ export function useItem () {
       }
       removeLocalItem();
       setTimeout(() => router.push("/"), 1000);
-    } catch (error) {
-      handleError(error);
+    } catch (err) {
+      error.value = await handleError(err);
     } finally {
       loading.value = false;
     }
