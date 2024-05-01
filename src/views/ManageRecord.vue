@@ -84,12 +84,14 @@ export default defineComponent({
     const id = ref(router.currentRoute.value.params.id);
 
     const { item, loading, error, getItem } = useItem();
+    const localStorageKeys = ["title", "tags", "content"];
 
     onMounted(async () => {
       // Load values from localStorage, if available.
-      data.value.title = localStorage.getItem("title") || "";
-      data.value.tags = localStorage.getItem("tags") || "";
-      data.value.content = localStorage.getItem("content") || "";
+      localStorageKeys.forEach((key: string) => {
+        data.value[key as "title" | "tags" | "content"] =
+          localStorage.getItem(key) || "";
+      });
 
       if (id.value != null) {
         await getItem(id.value as string);
@@ -104,29 +106,15 @@ export default defineComponent({
       }
     });
 
-    // Watch for changes to data.title
-    watch(
-      () => data.value.title,
-      (newVal) => {
-        localStorage.setItem("title", newVal);
-      }
-    );
-
-    // Watch for changes to data.tags
-    watch(
-      () => data.value.tags,
-      (newVal) => {
-        localStorage.setItem("tags", newVal);
-      }
-    );
-
-    // Watch for changes to data.content
-    watch(
-      () => data.value.content,
-      (newVal) => {
-        localStorage.setItem("content", newVal);
-      }
-    );
+    // Watch for changes in the data object and update localStorage
+    localStorageKeys.forEach((key) => {
+      watch(
+        () => data.value[key as "title" | "tags" | "content"],
+        (newVal) => {
+          localStorage.setItem(key, newVal);
+        }
+      );
+    });
 
     const createItem = async () => {
       if (addLoading.value) return;
