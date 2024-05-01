@@ -43,114 +43,114 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
+import { defineComponent, ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { useItem } from "@/composables/item";
+import { useItem } from '@/composables/item'
 
-import InputField from "@/components/InputField.vue";
-import LoadingIcon from "@/components/LoadingIcon.vue";
-import LoadingOverlayVue from "@/components/LoadingOverlay.vue";
-import ResponseStatus from "@/components/ResponseStatus.vue";
-import PrimaryButton from "@/components/PrimaryButton.vue";
+import InputField from '@/components/InputField.vue'
+import LoadingIcon from '@/components/LoadingIcon.vue'
+import LoadingOverlayVue from '@/components/LoadingOverlay.vue'
+import ResponseStatus from '@/components/ResponseStatus.vue'
+import PrimaryButton from '@/components/PrimaryButton.vue'
 
-import { Item } from "@/models/Item";
-import { ItemService } from "@/services/item_service";
-import { handleError } from "@/utils";
-import { MdEditor } from "md-editor-v3";
-import "md-editor-v3/lib/style.css";
+import { Item } from '@/models/Item'
+import { ItemService } from '@/services/item_service'
+import { handleError } from '@/utils'
+import { MdEditor } from 'md-editor-v3'
+import 'md-editor-v3/lib/style.css'
 
 export default defineComponent({
-  name: "ManageRecord",
+  name: 'ManageRecord',
   components: {
     InputField,
     MdEditor,
     PrimaryButton,
     LoadingIcon,
     ResponseStatus,
-    LoadingOverlayVue,
+    LoadingOverlayVue
   },
   setup() {
     const data = ref({
-      title: "",
-      tags: "",
-      content: "",
-    });
-    const addLoading = ref(false);
-    const addError = ref("");
-    const success = ref("");
-    const router = useRouter();
+      title: '',
+      tags: '',
+      content: ''
+    })
+    const addLoading = ref(false)
+    const addError = ref('')
+    const success = ref('')
+    const router = useRouter()
     // get id form the route params.
-    const id = ref(router.currentRoute.value.params.id);
+    const id = ref(router.currentRoute.value.params.id)
 
-    const { item, loading, error, getItem } = useItem();
-    const localStorageKeys = ["title", "tags", "content"];
+    const { item, loading, error, getItem } = useItem()
+    const localStorageKeys = ['title', 'tags', 'content']
 
     onMounted(async () => {
       // Load values from localStorage, if available.
       localStorageKeys.forEach((key: string) => {
-        data.value[key as "title" | "tags" | "content"] =
-          localStorage.getItem(key) || "";
-      });
+        data.value[key as 'title' | 'tags' | 'content'] =
+          localStorage.getItem(key) || ''
+      })
 
       if (id.value != null) {
-        await getItem(id.value as string);
+        await getItem(id.value as string)
       }
-    });
+    })
 
-    watch(item, (newVal) => {
+    watch(item, newVal => {
       if (newVal) {
-        data.value.title = newVal.title;
-        data.value.tags = newVal.tag;
-        data.value.content = newVal.content;
+        data.value.title = newVal.title
+        data.value.tags = newVal.tag
+        data.value.content = newVal.content
       }
-    });
+    })
 
     // Watch for changes in the data object and update localStorage
-    localStorageKeys.forEach((key) => {
+    localStorageKeys.forEach(key => {
       watch(
-        () => data.value[key as "title" | "tags" | "content"],
-        (newVal) => {
-          localStorage.setItem(key, newVal);
+        () => data.value[key as 'title' | 'tags' | 'content'],
+        newVal => {
+          localStorage.setItem(key, newVal)
         }
-      );
-    });
+      )
+    })
 
     const createItem = async () => {
-      if (addLoading.value) return;
-      addLoading.value = true;
+      if (addLoading.value) return
+      addLoading.value = true
       try {
         let _item = new Item({
           title: data.value.title,
           tag: data.value.tags,
           content: data.value.content,
-          id: "",
-          timestamp: item.value?.timestamp || null,
-        });
+          id: '',
+          timestamp: item.value?.timestamp || null
+        })
         try {
           if (id.value) {
-            _item.id = id.value as string;
-            await new ItemService().updateItem(_item);
+            _item.id = id.value as string
+            await new ItemService().updateItem(_item)
           } else {
-            await new ItemService().createItem(_item);
+            await new ItemService().createItem(_item)
           }
-          success.value = "Item created successfully, redirecting...";
+          success.value = 'Item created successfully, redirecting...'
           // Remove values from localStorage
-          localStorage.removeItem("title");
-          localStorage.removeItem("tags");
-          localStorage.removeItem("content");
+          localStorage.removeItem('title')
+          localStorage.removeItem('tags')
+          localStorage.removeItem('content')
           setTimeout(() => {
-            router.push("/");
-          }, 1000);
+            router.push('/')
+          }, 1000)
         } catch (e) {
-          addError.value = await handleError(e);
+          addError.value = await handleError(e)
         }
       } catch (e) {
-        error.value = await handleError(e);
+        error.value = await handleError(e)
       } finally {
-        addLoading.value = false;
+        addLoading.value = false
       }
-    };
+    }
 
     return {
       id,
@@ -161,8 +161,8 @@ export default defineComponent({
       success,
       createItem,
       loading,
-      item,
-    };
-  },
-});
+      item
+    }
+  }
+})
 </script>
