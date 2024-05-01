@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/item/:id',
     name: 'ItemDetail',
-    component: () => import('../views/ItemDetail.vue'),
+    component: () => import('../views/ItemDetailView.vue'),
     meta: {
         title: 'Item Detail',
         requiresAuth: true,
