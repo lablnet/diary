@@ -117,7 +117,10 @@ export default defineComponent({
           } else {
             await new ItemService().createItem(_item);
           }
-          success.value = "Item created successfully";
+          success.value = "Item created successfully, redirecting...";
+          setTimeout(() => {
+            router.push("/");
+          }, 1000);
         } catch (e) {
           addError.value = await handleError(e);
         }
