@@ -2,7 +2,7 @@
   <div>
     <ResponseStatus :error="error" />
     <section v-for="item in items" :key="item.id">
-      <ItemDetail :item="item" />
+      <ItemDetail :item="item" :limitedContent="item.content.slice(0, 200)"  />
     </section>
     <LoadingIcon :loading="loading" />
   </div>

@@ -8,7 +8,7 @@
     </h1>
     <h6 class="text-gray-600">{{ item.timestamp }}</h6>
     <div class="prose">
-      <MdPreview :editorId="editor_id" :modelValue="item.content" />
+      <MdPreview :editorId="editor_id" :modelValue="limitedContent ?? item.content" />
     </div>
     <p class="text-gray-600 mt-6">Tags: {{ item.tag }}</p>
   </div>
@@ -25,6 +25,10 @@ export default defineComponent({
     item: {
       type: Object as () => ItemData,
       required: true
+    },
+    limitedContent: {
+      type: String,
+      default: null
     }
   },
   components: {
