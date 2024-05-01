@@ -32,7 +32,7 @@
             :language="'en-US'"
           />
         </div>
-        error: {{error}}
+        error:  {{error}}
         <ResponseStatus :error="error" :success="success" />
         <div class="mt-2 mb-2">
           <PrimaryButton
@@ -95,7 +95,7 @@ export default defineComponent({
     const id = ref(router.currentRoute.value.params.id);
 
     onMounted(async () => {
-      if (id.value != null) {
+      if (id.value) {
         await getItem(id.value as string);
       }
     });
