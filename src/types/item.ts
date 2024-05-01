@@ -1,7 +1,7 @@
 export type ItemData = {
     id: string;
     title: string;
-    tag: string;
+    tags: Array<string>;
     content: string;
     timestamp: Date | string | null;
 };

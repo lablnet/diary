@@ -3,14 +3,14 @@ import { ItemData } from '../types/item';
 class Item {
     id: string;
     title: string;
-    tag: string;
+    tags: Array<string>;
     content: string;
     timestamp: Date | string | null;
 
-    constructor({ id, title, tag, content, timestamp }: ItemData) {
+    constructor({ id, title, tags, content, timestamp }: ItemData) {
         this.id = id;
         this.title = title;
-        this.tag = tag;
+        this.tags = tags;
         this.content = content;
         this.timestamp = timestamp;
     }
@@ -27,7 +27,7 @@ class Item {
         return {
             id: this.id,
             title: this.title,
-            tag: this.tag,
+            tags: this.tags,
             content: this.content,
             timestamp: this.timestamp
         };
