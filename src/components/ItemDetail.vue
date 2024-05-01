@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto p-4 pt-6" v-if="item?.title">
     <h1 class="text-3xl font-bold mb-4">
-      {{ item.title }}
-      <router-link :to="`/manage-record/${item.id}`">
+      <router-link :to="`/item/${item.id}`">{{ item.title }}</router-link>
+      <router-link class="ml-6" :to="`/manage-record/${item.id}`">
         <span class="fa fa-edit text-lg text-blue-500 -mt-4"></span>
       </router-link>
     </h1>
