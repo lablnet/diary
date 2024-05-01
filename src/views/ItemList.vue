@@ -5,6 +5,9 @@
       <ItemDetail :item="item" :limitedContent="item.content.slice(0, 200)"  />
     </section>
     <LoadingIcon :loading="loading" />
+    <div v-if="items.length === 0 && !loading" class="text-center mt-4">
+      <p>No record found</p>
+    </div>
   </div>
 </template>
 
