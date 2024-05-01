@@ -1,11 +1,19 @@
 <template>
   <main v-if="$route.path.includes('/auth')">
-      <router-view />
+    <router-view />
   </main>
   <main v-else>
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <nav class="flex justify-between items-center p-4 bg-blue-500 text-white">
+      <div class="flex items-center font-bold text-lg">
+        <img src="@/assets/logo.png" class="w-12 h-12 mr-2" />
+        DIARY
+      </div>
+      <div>
+        <router-link class="bg-green-500 px-2 py-1 rounded" to="/manage-record"
+          >New</router-link
+        >
+        <router-link class="ml-4" to="/logout">Logout</router-link>
+      </div>
     </nav>
     <router-view />
   </main>
