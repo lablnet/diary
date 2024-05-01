@@ -32,12 +32,11 @@
             :language="'en-US'"
           />
         </div>
-        <ResponseStatus :error="error || addError" :success="success" />
-        <LoadingIcon :loading="addLoading" />
+        <ResponseStatus :error="error" :success="success" />
         <div class="mt-2 mb-2">
           <PrimaryButton
             :text="id ? 'Update' : 'Create'"
-            @handleOnClick="createItem"
+            @handleOnClick="saveItem(data)"
           />
         </div>
       </form>
@@ -46,21 +45,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, reactive, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 
 import { useItem } from "@/composables/item";
+import { useTags } from "@/composables/tags";
 
 import InputField from "@/components/InputField.vue";
-import LoadingIcon from "@/components/LoadingIcon.vue";
 import LoadingOverlayVue from "@/components/LoadingOverlay.vue";
 import ResponseStatus from "@/components/ResponseStatus.vue";
 import PrimaryButton from "@/components/PrimaryButton.vue";
 import TagList from "@/components/TagList.vue";
 
-import { Item } from "@/models/Item";
-import { ItemService } from "@/services/item_service";
-import { handleError } from "@/utils";
 import { MdEditor } from "md-editor-v3";
 import "md-editor-v3/lib/style.css";
 
@@ -70,134 +66,72 @@ export default defineComponent({
     InputField,
     MdEditor,
     PrimaryButton,
-    LoadingIcon,
     ResponseStatus,
     LoadingOverlayVue,
     TagList,
   },
+
   setup() {
-    const data = ref({
-      title: "" as string,
-      tags: [] as string[],
-      content: "" as string,
+    const data = reactive({
+      title: localStorage.getItem("title") || "",
+      tags: JSON.parse(localStorage.getItem("tags") || "[]"),
+      content: localStorage.getItem("content") || "",
+      id: "",
+      timestamp: null as Date | string | null,
     });
-    const tag = ref("");
-    const addLoading = ref(false);
-    const addError = ref("");
-    const success = ref("");
+    const { tag, addTag, removeTag } = useTags(data);
+    const {
+      item,
+      loading,
+      error,
+      success,
+      getItem,
+      saveItem,
+      removeLocalItem,
+    } = useItem();
     const router = useRouter();
     // get id form the route params.
     const id = ref(router.currentRoute.value.params.id);
 
-    const { item, loading, error, getItem } = useItem();
-    const localStorageKeys = ["title", "tags", "content"];
-
     onMounted(async () => {
-      // Load values from localStorage, if available.
-      localStorageKeys.forEach((key) => {
-        let val = localStorage.getItem(key);
-        if (key === 'tags') {
-          try {
-            data.value.tags = JSON.parse(val || "[]");
-          } catch (e) {
-            data.value.tags = [];
-          }
-          return
-        } 
-        data.value[key as "title" | "content"] = val || "";
-      });
-
       if (id.value != null) {
         await getItem(id.value as string);
       }
     });
 
+    watch(
+      data,
+      (newVal) => {
+        // Sync with local storage when data changes
+        localStorage.setItem("title", newVal.title);
+        localStorage.setItem("tags", JSON.stringify(newVal.tags));
+        localStorage.setItem("content", newVal.content);
+      },
+      { deep: true }
+    );
+
     watch(item, (newVal) => {
       if (newVal) {
-        data.value.title = newVal.title;
-        data.value.tags = newVal.tags;
-        data.value.content = newVal.content;
+        data.title = newVal.title;
+        data.tags = newVal.tags;
+        data.content = newVal.content;
+        data.id = newVal.id;
+        data.timestamp = newVal.timestamp;
+
+        // Clear local storage when item is successfully loaded
+        removeLocalItem();
       }
     });
-
-    // Watch for changes in the data object and update localStorage
-    watch(data, (newVal) => {
-      localStorageKeys.forEach((key) => {
-        if (key === 'tags') {
-          return
-        }
-        localStorage.setItem(key, newVal[key as "title" | "content"]);
-      });
-    });
-
-    const addTag = () => {
-      // do not add tag if it is space, empty or already exists.
-      if (tag.value.trim() === "" || tag.value.trim() === " ") return;
-      // split it with whitespace or comma
-      const tags = tag.value.split(/[\s,]+/);
-      tags.forEach((tag) => {
-        data.value.tags.push(tag);
-      });
-      // remove duplicate tags
-      data.value.tags = data.value.tags.filter(
-        (tag, index, self) => self.indexOf(tag) === index
-      );
-      localStorage.setItem("tags", JSON.stringify(data.value.tags));
-      tag.value = "";
-    };
-
-    const removeTag = (tag: string) => {
-      data.value.tags = data.value.tags.filter((t) => t !== tag);
-      localStorage.setItem("tags", JSON.stringify(data.value.tags));
-    };
-
-    const createItem = async () => {
-      if (addLoading.value) return;
-      addLoading.value = true;
-      try {
-        let _item = new Item({
-          title: data.value.title,
-          tags: data.value.tags,
-          content: data.value.content,
-          id: "",
-          timestamp: item.value?.timestamp || null,
-        });
-        try {
-          if (id.value) {
-            _item.id = id.value as string;
-            await new ItemService().updateItem(_item);
-          } else {
-            await new ItemService().createItem(_item);
-          }
-          success.value = "Item created successfully, redirecting...";
-          // Remove values from localStorage
-          localStorageKeys.forEach((key) => {
-            localStorage.removeItem(key);
-          });
-          setTimeout(() => {
-            router.push("/");
-          }, 1000);
-        } catch (e) {
-          addError.value = await handleError(e);
-        }
-      } catch (e) {
-        error.value = await handleError(e);
-      } finally {
-        addLoading.value = false;
-      }
-    };
 
     return {
       id,
       tag,
       data,
-      addLoading,
       error,
-      addError,
       success,
       addTag,
       removeTag,
-      createItem,
+      saveItem,
       loading,
       item,
     };
