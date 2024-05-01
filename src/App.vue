@@ -12,7 +12,7 @@
         <router-link class="bg-green-500 px-2 py-1 rounded" to="/manage-record"
           >New</router-link
         >
-        <router-link class="ml-4" to="/logout">Logout</router-link>
+        <a href="#!" class="ml-4" @click="logout">Logout</a>
       </div>
     </nav>
     <router-view />
@@ -21,11 +21,13 @@
 
 <script lang="ts">
 import { defineComponent, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { auth } from "@/services/firebase";
 
 export default defineComponent({
   name: "App",
   setup() {
+    const router = useRouter();
     const route = useRoute();
 
     watch(
@@ -38,6 +40,13 @@ export default defineComponent({
         }
       }
     );
+
+    const logout = async () => {
+      await auth.signOut();
+      router.push("/auth/login");
+    };
+
+    return { logout };
   },
 });
 </script>
